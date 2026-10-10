@@ -1,0 +1,210 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "Thông tin tài khoản giáo viên/người dùng hệ thống",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "description": "Firebase Auth UID" },
+        "displayName": { "type": "string", "description": "Tên hiển thị" },
+        "email": { "type": "string", "description": "Email người dùng" },
+        "photoURL": { "type": "string", "description": "Ảnh đại diện" },
+        "role": { "type": "string", "enum": ["teacher", "admin", "subjectTeacher", "parent"], "description": "Vai trò hệ thống" },
+        "classIds": { "type": "array", "description": "Danh sách mã lớp được quản lý" },
+        "createdAt": { "type": "string", "description": "Thời gian tạo" },
+        "updatedAt": { "type": "string", "description": "Thời gian cập nhật" }
+      },
+      "required": ["uid", "email", "role"]
+    },
+    "Class": {
+      "title": "Class",
+      "description": "Thông tin lớp học chủ nhiệm",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Mã lớp, ví dụ 10A1" },
+        "name": { "type": "string", "description": "Tên lớp, ví dụ 10A1" },
+        "academicYear": { "type": "string", "description": "Năm học, ví dụ 2026–2027" },
+        "room": { "type": "string", "description": "Phòng học" },
+        "department": { "type": "string", "description": "Ban / Khối chuyên" },
+        "teacherName": { "type": "string", "description": "Họ tên giáo viên chủ nhiệm" },
+        "ownerUid": { "type": "string", "description": "UID tài khoản GVCN quản lý lớp" },
+        "createdAt": { "type": "string", "description": "Thời gian tạo" },
+        "updatedAt": { "type": "string", "description": "Thời gian cập nhật" }
+      },
+      "required": ["id", "name", "ownerUid"]
+    },
+    "Student": {
+      "title": "Student",
+      "description": "Học sinh trong lớp",
+      "type": "object",
+      "properties": {
+        "studentId": { "type": "string", "description": "ID học sinh" },
+        "studentCode": { "type": "string", "description": "Mã học sinh" },
+        "fullName": { "type": "string", "description": "Họ và tên" },
+        "gender": { "type": "string", "enum": ["Nam", "Nữ"], "description": "Giới tính" },
+        "dateOfBirth": { "type": "string", "description": "Ngày sinh YYYY-MM-DD" },
+        "group": { "type": "string", "description": "Tổ (Tổ 1, Tổ 2, Tổ 3, Tổ 4)" },
+        "phone": { "type": "string", "description": "Số điện thoại học sinh" },
+        "parentName": { "type": "string", "description": "Họ tên phụ huynh" },
+        "parentPhone": { "type": "string", "description": "Số điện thoại phụ huynh" },
+        "address": { "type": "string", "description": "Địa chỉ thường trú" },
+        "position": { "type": "string", "description": "Chức vụ trong lớp" },
+        "status": { "type": "string", "description": "Trạng thái học tập" },
+        "notes": { "type": "string", "description": "Ghi chú học sinh" },
+        "createdAt": { "type": "string", "description": "Thời gian tạo" },
+        "updatedAt": { "type": "string", "description": "Thời gian cập nhật" }
+      },
+      "required": ["studentId", "studentCode", "fullName", "group"]
+    },
+    "Attendance": {
+      "title": "Attendance",
+      "description": "Bản ghi chuyên cần học sinh theo ngày",
+      "type": "object",
+      "properties": {
+        "studentId": { "type": "string", "description": "Mã học sinh" },
+        "date": { "type": "string", "description": "Ngày điểm danh YYYY-MM-DD" },
+        "weekNumber": { "type": "number", "description": "Số thứ tự tuần học" },
+        "status": { "type": "string", "enum": ["present", "excused", "unexcused", "late", "earlyLeave"] },
+        "note": { "type": "string", "description": "Lý do / ghi chú" },
+        "createdAt": { "type": "string", "description": "Thời gian tạo" },
+        "updatedAt": { "type": "string", "description": "Thời gian cập nhật" }
+      },
+      "required": ["studentId", "date", "status"]
+    },
+    "Grade": {
+      "title": "Grade",
+      "description": "Điểm số học sinh",
+      "type": "object",
+      "properties": {
+        "studentId": { "type": "string" },
+        "subject": { "type": "string" },
+        "semester": { "type": "string" },
+        "assessmentType": { "type": "string" },
+        "score": { "type": "number" },
+        "date": { "type": "string" },
+        "note": { "type": "string" },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["studentId", "subject", "score"]
+    },
+    "CompetitionWeek": {
+      "title": "CompetitionWeek",
+      "description": "Tuần thi đua lớp",
+      "type": "object",
+      "properties": {
+        "weekNumber": { "type": "number" },
+        "startDate": { "type": "string" },
+        "endDate": { "type": "string" },
+        "status": { "type": "string" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["weekNumber", "startDate", "endDate"]
+    },
+    "CompetitionRecord": {
+      "title": "CompetitionRecord",
+      "description": "Ghi nhận cộng/trừ điểm thi đua tuần",
+      "type": "object",
+      "properties": {
+        "studentId": { "type": "string" },
+        "weekNumber": { "type": "number" },
+        "date": { "type": "string" },
+        "type": { "type": "string", "enum": ["positive", "negative"] },
+        "reason": { "type": "string" },
+        "points": { "type": "number" },
+        "note": { "type": "string" },
+        "createdAt": { "type": "string" },
+        "createdBy": { "type": "string" }
+      },
+      "required": ["studentId", "weekNumber", "type", "points", "reason"]
+    },
+    "Violation": {
+      "title": "Violation",
+      "description": "Biên bản nề nếp vi phạm",
+      "type": "object",
+      "properties": {
+        "studentId": { "type": "string" },
+        "date": { "type": "string" },
+        "type": { "type": "string" },
+        "level": { "type": "string" },
+        "description": { "type": "string" },
+        "action": { "type": "string" },
+        "note": { "type": "string" },
+        "createdAt": { "type": "string" },
+        "createdBy": { "type": "string" }
+      },
+      "required": ["studentId", "date", "description"]
+    },
+    "Reward": {
+      "title": "Reward",
+      "description": "Khen thưởng học sinh",
+      "type": "object",
+      "properties": {
+        "studentId": { "type": "string" },
+        "date": { "type": "string" },
+        "type": { "type": "string" },
+        "description": { "type": "string" },
+        "note": { "type": "string" },
+        "createdAt": { "type": "string" },
+        "createdBy": { "type": "string" }
+      },
+      "required": ["studentId", "date", "description"]
+    },
+    "ClassNote": {
+      "title": "ClassNote",
+      "description": "Ghi chú sổ chủ nhiệm",
+      "type": "object",
+      "properties": {
+        "studentId": { "type": "string" },
+        "date": { "type": "string" },
+        "content": { "type": "string" },
+        "category": { "type": "string" },
+        "createdAt": { "type": "string" },
+        "createdBy": { "type": "string" }
+      },
+      "required": ["date", "content"]
+    }
+  },
+  "firestore": {
+    "/users/{uid}": {
+      "schema": "User",
+      "description": "Tài khoản giáo viên và người dùng hệ thống"
+    },
+    "/classes/{classId}": {
+      "schema": "Class",
+      "description": "Thông tin lớp học chủ nhiệm"
+    },
+    "/classes/{classId}/students/{studentId}": {
+      "schema": "Student",
+      "description": "Danh sách học sinh của lớp"
+    },
+    "/classes/{classId}/attendance/{attendanceId}": {
+      "schema": "Attendance",
+      "description": "Chuyên cần học sinh theo ngày"
+    },
+    "/classes/{classId}/grades/{gradeId}": {
+      "schema": "Grade",
+      "description": "Điểm số học sinh"
+    },
+    "/classes/{classId}/competitionWeeks/{weekId}": {
+      "schema": "CompetitionWeek",
+      "description": "Danh mục tuần thi đua"
+    },
+    "/classes/{classId}/competitionRecords/{recordId}": {
+      "schema": "CompetitionRecord",
+      "description": "Bản ghi cộng/trừ điểm thi đua học sinh"
+    },
+    "/classes/{classId}/violations/{violationId}": {
+      "schema": "Violation",
+      "description": "Ghi nhận vi phạm"
+    },
+    "/classes/{classId}/rewards/{rewardId}": {
+      "schema": "Reward",
+      "description": "Ghi nhận khen thưởng"
+    },
+    "/classes/{classId}/notes/{noteId}": {
+      "schema": "ClassNote",
+      "description": "Ghi chú chủ nhiệm"
+    }
+  }
+}

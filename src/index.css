@@ -1,0 +1,25 @@
+@import "tailwindcss";
+
+:root {
+  --sidebar-bg: #16324F;
+  --sidebar-hover: #214766;
+  --sidebar-active: #08A67A;
+  --sidebar-active-hover: #07966F;
+  --sidebar-text: #FFFFFF;
+  --sidebar-subtext: #B8C7D9;
+  --sidebar-icon: #9FB3C8;
+  --main-bg: #F5F8FC;
+  --card-bg: #FFFFFF;
+  --card-border: #D9E2EC;
+  --text-main: #172B4D;
+  --text-sub: #66788A;
+  --primary-green: #08A67A;
+  --warning: #F59E0B;
+  --danger: #E5484D;
+  --info: #3182CE;
+}
+
+body {
+  background-color: #F5F8FC;
+  color: #172B4D;
+}
